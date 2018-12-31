@@ -4,14 +4,14 @@ A PyTorch impelemntation of "Graph Classification using Structural Attention" (K
 
 <div style="text-align:center"><img src ="attention_true.jpg" ,width=600/></div>
 <p align="justify">
-Due to the fact much of today's data can be represented as graphs, there has been a demand for generalizing neural network models for graph data. One recent direction that has shown fruitful results, and therefore growing interest, is the usage of graph convolutional neural networks (GCNs). They have been shown to provide a significant improvement on a wide range of tasks in network analysis, one of which being node representation learning. The task of learning low-dimensional node representations has shown to increase performance on a plethora of other tasks from link prediction and node classification, to community detection and visualization. Simultaneously, signed networks (or graphs having both positive and negative links) have become ubiquitous with the growing popularity of social media. However, since previous GCN models have primarily focused on unsigned networks (or graphs consisting of only positive links), it is unclear how they could be applied to signed networks due to the challenges presented by negative links. The primary challenges are based on negative links having not only a different semantic meaning as compared to positive links, but their principles are inherently different and they form complex relations with positive links. Therefore we propose a dedicated and principled effort that utilizes balance theory to correctly aggregate and propagate the information across layers of a signed GCN model. We perform empirical experiments comparing our proposed signed GCN against state-of-the-art baselines for learning node representations in signed networks. More specifically, our experiments are performed on four real-world datasets for the classical link sign prediction problem that is commonly used as the benchmark for signed network embeddings algorithms. </p>
+Graph classification is a problem with practical applications in many different domains. To solve this problem, one usually calculates certain graph statistics (i.e. , graph features) that help discriminate between graphs of different classes. When calculating such features, most existing approaches process the entire graph. In a graphlet-based approach, for instance, the entire graph is processed to get the total count of different graphlets or subgraphs. In many real-world applications, however, graphs can be noisy with discriminative patterns confined to certain regions in the graph only. In this work, we study the problem of attention-based graph classification . The use of attention allows us to focus on small but informative parts of the graph, avoiding noise in the rest of the graph. We present a novel RNN model, called the Graph Attention Model (GAM), that processes only a portion of the graph by adaptively selecting a sequence of “informative” nodes. Experimental results on multiple real-world datasets show that the proposed method is competitive against various well-known methods in graph classification even though our method is limited to only a portion of the graph.</p>
 
 This repository provides an implementation for SGCN as described in the paper:
 
-> Signed Graph Convolutional Network.
-> Tyler Derr, Yao Ma, and Jiliang Tang
-> ICDM, 2018.
-> [[Paper]](https://arxiv.org/abs/1808.06354)
+> Graph Classification using Structural Attention.
+> John Boaz Lee, Ryan Rossi, and Xiangnan Kong
+> KDD, 2018.
+> [[Paper]](http://ryanrossi.com/pubs/KDD18-graph-attention-model.pdf)
 
 
 ### Requirements
