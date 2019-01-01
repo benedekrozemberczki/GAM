@@ -53,11 +53,6 @@ def parameter_parser():
                         default = 10,
 	                help = 'Random seed for sklearn pre-training. Default is 10.')
 
-    parser.add_argument('--lstm-cells',
-                        type = int,
-                        default = 1,
-	                help = 'Random seed for sklearn pre-training. Default is 1.')
-
     parser.add_argument('--gamma',
                         type = float,
                         default = 0.99,
