@@ -6,7 +6,7 @@ A PyTorch implementation of "Graph Classification using Structural Attention" (K
 <p align="justify">
 Graph classification is a problem with practical applications in many different domains. To solve this problem, one usually calculates certain graph statistics (i.e. , graph features) that help discriminate between graphs of different classes. When calculating such features, most existing approaches process the entire graph. In a graphlet-based approach, for instance, the entire graph is processed to get the total count of different graphlets or subgraphs. In many real-world applications, however, graphs can be noisy with discriminative patterns confined to certain regions in the graph only. In this work, we study the problem of attention-based graph classification . The use of attention allows us to focus on small but informative parts of the graph, avoiding noise in the rest of the graph. We present a novel RNN model, called the Graph Attention Model (GAM), that processes only a portion of the graph by adaptively selecting a sequence of “informative” nodes. Experimental results on multiple real-world datasets show that the proposed method is competitive against various well-known methods in graph classification even though our method is limited to only a portion of the graph.</p>
 
-This repository provides an implementation for SGCN as described in the paper:
+This repository provides an implementation for GAM as described in the paper:
 
 > Graph Classification using Structural Attention.
 > John Boaz Lee, Ryan Rossi, and Xiangnan Kong
@@ -30,7 +30,7 @@ torchvision        0.2.1
 ```
 ### Datasets
 
-The code takes graphs for training from an input folder where each graph is stored as a JSON. Graphs used for testing are also stored as JSON files. Every node id, node label and class has to be indexed from 0.
+The code takes graphs for training from an input folder where each graph is stored as a JSON. Graphs used for testing are also stored as JSON files. Every node id, node label and class has to be indexed from 0. Keys of dictionaries and nested dictionaries are stored strings in order to make JSON serialization possible.
 
 These JSON files have the following key-value structure:
 
