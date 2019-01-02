@@ -23,36 +23,24 @@ tqdm               4.28.1
 numpy              1.15.4
 pandas             0.23.4
 texttable          1.5.0
-scipy              1.1.0
 argparse           1.1.0
 sklearn            0.20.0
-torch              0.4.1.post2
-torch-geometric    0.3.1
+torch              1.0.0.
 torchvision        0.2.1
 ```
 ### Datasets
 
-The code takes an input graph in a csv file. Every row indicates an edge between two nodes separated by a comma. The first row is a header. Nodes should be indexed starting with 0. Sample graphs for the `Bitcoin Alpha`  and `Bitcoin OTC` graphs are included in the  `input/` directory. The structure of the edge dataset is the following:
+The code takes graphs for training from an input folder where each graph is stored as a JSON. Graphs used for testing are also stored as JSON files. These have the following key-value structure:
 
-| **NODE ID 1**| **NODE ID 2** | **Sign** | 
-| --- | --- | --- |
-| 0 | 3 |-1 |
-| 1 | 1 |1 |
-| 2 | 2 |1 |
-| 3 | 1 |-1 |
-| ... | ... |... |
-| n | 9 |-1 |
 
-An attributed dataset for an `Erdos-Renyi` graph is also included in the input folder. **The node feature dataset rows are sorted by ID increasing**. The structure of the features csv has to be the following:
+```javascript
+{ 0: [0, 1, 38, 1968, 2000, 52727],
+  1: [10000, 20, 3],
+  2: [],
+  ...
+  n: [2018, 10000]}
+```
 
-| **Feature 1** | **Feature 2** | **Feature 3** |...| **Feature d** |
-| --- | --- | --- | --- |--- |
-|  3 |0 |1.37 |... |1 |
-|  1 |1 |2.54 |... |-11 |
-| 2 |0 |1.08 |... |-12 |
-| 1 |1 |1.22 |... |-4 |
-| . ... |... |... |... |... |
-|  5 |0 |2.47 |... |21 |
 
 ### Options
 
