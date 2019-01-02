@@ -44,32 +44,24 @@ The **target key** has an integer value, which is the ID of the target class (e.
 
 ### Options
 
-Training an SGCN model is handled by the `src/main.py` script which provides the following command line arguments.
+Training a GAM model is handled by the `src/main.py` script which provides the following command line arguments.
 
 #### Input and output options
 
 ```
-  --edge-path                STR    Input graph path.          Default is `input/bitcoin_otc.csv`.
-  --features-path            STR    Membership path.           Default is `input/bitcoin_otc.csv`.
-  --embedding-path           STR    Embedding path.            Default is `output/embedding/bitcoin_otc_sgcn.csv`.
-  --regression-weights-path  STR    Regression weights path.   Default is `output/weights/bitcoin_otc_sgcn.csv`.
-  --log-path                 STR    Log path.                  Default is `logs/bitcoin_otc_logs.json`.  
+  --train-graph-folder   STR    Training graphs folder.      Default is `input/train/`.
+  --test-graph-folder    STR    Testing graphs folder.       Default is `input/test/`.
+  --prediction-path      STR    Path to store labels.        Default is `output/erdos_predictions.csv`.
+  --log-path             STR    Log json path.               Default is `logs/erdos_gam_logs.json`. 
 ```
 
 #### Model options
 
 ```
-  --epochs                INT         Number of SGCN training epochs.      Default is 100. 
-  --reduction-iterations  INT         Number of SVD epochs.                Default is 128.
-  --reduction-dimensions  INT         SVD dimensions.                      Default is 30.
-  --seed                  INT         Random seed value.                   Default is 42.
-  --lamb                  FLOAT       Embedding regularization parameter.  Default is 1.0.
-  --test-size             FLOAT       Test ratio..                         Default is False.  
-  --learning-rate         FLOAT       Learning rate.                       Default is 0.001.  
-  --weight-decay          FLOAT       Weight decay.                        Default is 10^-5. 
-  --layers                LST         Layer sizes in model.                Default is [64, 32].
-  --spectral-features     BOOL        Layer sizes in autoencoder model.    Default is True
-  --general-features      BOOL        Loss calculation for the model.      Sets spectral features to False.  
+  --epochs             INT         Number of GAM training epochs.           Default is 10. 
+  --learning-rate      FLOAT       Learning rate.                           Default is 0.001.  
+  --weight-decay       FLOAT       Weight decay.                            Default is 10^-5. 
+  --model-memory       BOOL        Training a model with multiple agents.   Sets shared agent memory to True.  
 ```
 
 ### Examples
