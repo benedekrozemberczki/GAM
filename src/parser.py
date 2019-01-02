@@ -8,70 +8,70 @@ def parameter_parser():
 
     parser = argparse.ArgumentParser(description = "Run GAM.")
 
-    parser.add_argument('--test-graph-folder',
-                        nargs = '?',
-                        default = './input/test/',
-	                help = 'Erdos datasets.')
+    parser.add_argument("--test-graph-folder",
+                        nargs = "?",
+                        default = "./input/test/",
+	                help = "Erdos datasets.")
 
-    parser.add_argument('--train-graph-folder',
-                        nargs = '?',
-                        default = './input/train/',
-	                help = 'Erdos datasets.')
+    parser.add_argument("--train-graph-folder",
+                        nargs = "?",
+                        default = "./input/train/",
+	                help = "Erdos datasets.")
 
-    parser.add_argument('--prediction-path',
-                        nargs = '?',
-                        default = './output/erdos_predictions.csv',
-	                help = 'Erdos datasets.')
+    parser.add_argument("--prediction-path",
+                        nargs = "?",
+                        default = "./output/erdos_predictions.csv",
+	                help = "Erdos datasets.")
 
-    parser.add_argument('--log-path',
-                        nargs = '?',
-                        default = './logs/erdos_gam_logs.json',
-	                help = 'Log json.')
+    parser.add_argument("--log-path",
+                        nargs = "?",
+                        default = "./logs/erdos_gam_logs.json",
+	                help = "Log json.")
 
-    parser.add_argument('--epochs',
+    parser.add_argument("--epochs",
                         type = int,
                         default = 1,
-	                help = 'Number of training epochs. Default is 100.')
+	                help = "Number of training epochs. Default is 100.")
 
-    parser.add_argument('--step-dimensions',
+    parser.add_argument("--step-dimensions",
                         type = int,
                         default = 32,
-	                help = 'Number of SVD feature extraction dimensions. Default is 64.')
+	                help = "Number of SVD feature extraction dimensions. Default is 64.")
 
-    parser.add_argument('--combined-dimensions',
+    parser.add_argument("--combined-dimensions",
                         type = int,
                         default = 64,
-	                help = 'Number of SVD feature extraction dimensions. Default is 64.')
+	                help = "Number of SVD feature extraction dimensions. Default is 64.")
 
-    parser.add_argument('--batch-size',
+    parser.add_argument("--batch-size",
                         type = int,
                         default = 32,
-	                help = 'Number of graphs processed per batch. Default is 32.')
+	                help = "Number of graphs processed per batch. Default is 32.")
 
-    parser.add_argument('--time',
+    parser.add_argument("--time",
                         type = int,
                         default = 20,
-	                help = 'Random seed for sklearn pre-training. Default is 100.')
+	                help = "Random seed for sklearn pre-training. Default is 100.")
 
-    parser.add_argument('--aggents',
+    parser.add_argument("--aggents",
                         type = int,
                         default = 10,
-	                help = 'Random seed for sklearn pre-training. Default is 10.')
+	                help = "Random seed for sklearn pre-training. Default is 10.")
 
-    parser.add_argument('--gamma',
+    parser.add_argument("--gamma",
                         type = float,
                         default = 0.99,
-	                help = 'Embedding regularization parameter. Default is 1.0.')
+	                help = "Embedding regularization parameter. Default is 1.0.")
 
-    parser.add_argument('--learning-rate',
+    parser.add_argument("--learning-rate",
                         type = float,
                         default = 0.001,
-	                help = 'Learning rate. Default is 0.001.')
+	                help = "Learning rate. Default is 0.001.")
 
-    parser.add_argument('--weight-decay',
+    parser.add_argument("--weight-decay",
                         type = float,
                         default = 10**-5,
-	                help = 'Learning rate. Default is 10^-5.')
+	                help = "Learning rate. Default is 10^-5.")
 
     parser.add_argument("--model-memory",
                         dest = "model_memory",
