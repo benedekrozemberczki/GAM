@@ -4,7 +4,7 @@ from gam import GAMTrainer, MemoryGAMTrainer
 
 def main():
     """
-    Parsing command lines, creating target matrix, fitting a GAM.
+    Parsing command line parameters, processing graphs, fitting a GAM.
     """
     args = parameter_parser()
     tab_printer(args)
