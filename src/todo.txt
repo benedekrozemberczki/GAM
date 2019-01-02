@@ -1,9 +1,0 @@
-1. Parser clean up.
-2. Layers cleanup.
-3. GAM cleanup. Non binary case.
-4. GAM Memory. / Abstract class?
-5. Markdown.
-6. Figure and repo.
-7. Marketing from the 3rd?
-
-
