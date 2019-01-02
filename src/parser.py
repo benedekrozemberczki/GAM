@@ -8,14 +8,19 @@ def parameter_parser():
 
     parser = argparse.ArgumentParser(description = "Run GAM.")
 
-    parser.add_argument('--test-graph-path',
+    parser.add_argument('--test-graph-folder',
                         nargs = '?',
-                        default = './input/erdos_multi_class/test/',
+                        default = './input/test/',
 	                help = 'Erdos datasets.')
 
-    parser.add_argument('--train-graph-path',
+    parser.add_argument('--train-graph-folder',
                         nargs = '?',
-                        default = './input/erdos_multi_class/train/',
+                        default = './input/train/',
+	                help = 'Erdos datasets.')
+
+    parser.add_argument('--prediction-path',
+                        nargs = '?',
+                        default = './output/erdos_predictions.csv',
 	                help = 'Erdos datasets.')
 
     parser.add_argument('--log-path',
@@ -25,7 +30,7 @@ def parameter_parser():
 
     parser.add_argument('--epochs',
                         type = int,
-                        default = 10,
+                        default = 1,
 	                help = 'Number of training epochs. Default is 100.')
 
     parser.add_argument('--step-dimensions',
@@ -67,6 +72,12 @@ def parameter_parser():
                         type = float,
                         default = 10**-5,
 	                help = 'Learning rate. Default is 10^-5.')
+
+    parser.add_argument("--model-memory",
+                        dest = "model_memory",
+                        action = "store_true")
+
+    parser.set_defaults(spectral_features = False)
     
     return parser.parse_args()
 

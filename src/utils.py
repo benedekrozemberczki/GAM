@@ -18,9 +18,9 @@ def read_node_labels(args):
     print("Collecting unique node labels.\n")
     labels = set()
     targets = set()
-    graphs = glob.glob(args.train_graph_path + "*.json")
+    graphs = glob.glob(args.train_graph_folder + "*.json")
     try:
-        graphs = graphs + glob.glob(args.test_graph_path + "*.json")
+        graphs = graphs + glob.glob(args.test_graph_folder + "*.json")
     except:
         pass
     for g in tqdm(graphs):
@@ -32,3 +32,9 @@ def read_node_labels(args):
     print("The number of graph classes is: " +str(class_number) + ".\n")
     return identifiers, class_number
 
+
+def create_logs(args):
+    log = dict()
+    log["losses"] = []
+    log["params"] = vars(args)
+    return log
