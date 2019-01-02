@@ -34,14 +34,13 @@ The code takes graphs for training from an input folder where each graph is stor
 
 These JSON files have the following key-value structure:
 
-
 ```javascript
 {"target": 1,
  "edges": [[0, 1], [0, 4], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]],
  "labels": {"0": 2, "1": 3, "2": 2, "3": 3, "4": 4},
  "inverse_labels": {"2": [0, 2], "3": [1, 3], "4": [4]}}
 ```
-The target value has an integer value, which is the ID of the target class (e.g. Carcinogenicity). The edges key has an edge list value for the graph of interest. The labels key has a dictonary value for each node the labels are stored as key-value pairs (e.g. node - atom pair). The inverse_labels key has a key for each node label and the values are lists containing the nodes that have a specific node label.
+The **target key** has an integer value, which is the ID of the target class (e.g. Carcinogenicity). The **edges key** has an edge list value for the graph of interest. The **labels key** has a dictonary value for each node, these labels are stored as key-value pairs (e.g. node - atom pair). The **inverse_labels key** has a key for each node label and the values are lists containing the nodes that have a specific node label.
 
 ### Options
 
