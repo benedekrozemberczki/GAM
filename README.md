@@ -44,7 +44,7 @@ The **target key** has an integer value, which is the ID of the target class (e.
 
 ### Options
 
-Learning of the embedding is handled by the `src/main.py` script which provides the following command line arguments.
+Training an SGCN model is handled by the `src/main.py` script which provides the following command line arguments.
 
 #### Input and output options
 
@@ -74,7 +74,7 @@ Learning of the embedding is handled by the `src/main.py` script which provides 
 
 ### Examples
 
-The following commands learn a node embedding, regression weights and write the embedding to disk. The node representations are ordered by the ID. The layer sizes can be set manually.
+The following commands learn a node embedding, regression weights and write these to disk. The node representations are ordered by the ID. The layer sizes can be set manually.
 
 Creating an SGCN embedding of the default dataset. Saving the embedding, regression weights and logs at default paths.
 ```
