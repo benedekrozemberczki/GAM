@@ -58,10 +58,16 @@ Training a GAM model is handled by the `src/main.py` script which provides the f
 #### Model options
 
 ```
-  --epochs             INT         Number of GAM training epochs.           Default is 10. 
-  --learning-rate      FLOAT       Learning rate.                           Default is 0.001.  
-  --weight-decay       FLOAT       Weight decay.                            Default is 10^-5. 
-  --model-memory       BOOL        Training a model with multiple agents.   Sets shared agent memory to True.  
+  --agents               INT         Number of agents with memory.            Default is 10. 
+  --batch-size           INT         Number of graphs processed per batch.    Default is 32. 
+  --time                 INT         Time budget.                             Default is 20. 
+  --step-dimensions      INT         Neurons in step layer.                   Default is 32. 
+  --combined-dimensions  INT         Neurons in shared layer.                 Default is 64. 
+  --epochs               INT         Number of GAM training epochs.           Default is 10. 
+  --learning-rate        FLOAT       Learning rate.                           Default is 0.001.
+  --gamma                FLOAT       Discount rate.                           Default is 0.99. 
+  --weight-decay         FLOAT       Weight decay.                            Default is 10^-5. 
+  --model-memory         BOOL        Training a model with multiple agents.   Sets shared agent memory to True.  
 ```
 
 ### Examples
