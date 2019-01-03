@@ -32,7 +32,7 @@ torchvision        0.2.1
 
 The code takes graphs for training from an input folder where each graph is stored as a JSON. Graphs used for testing are also stored as JSON files. Every node id, node label and class has to be indexed from 0. Keys of dictionaries and nested dictionaries are stored strings in order to make JSON serialization possible.
 
-These JSON files have the following key-value structure:
+For example these JSON files have the following key-value structure:
 
 ```javascript
 {"target": 1,
