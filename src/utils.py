@@ -35,7 +35,6 @@ def read_node_labels(args):
     print("\n\nThe number of graph classes is: " +str(class_number) + ".\n")
     return identifiers, class_number
 
-
 def create_logs(args):
     log = dict()
     log["losses"] = []
