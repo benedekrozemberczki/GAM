@@ -4,10 +4,10 @@ import torch
 import random
 import numpy as np
 import pandas as pd
-from tqdm import tqdm, trange
 import networkx as nx
-import torch.nn.functional as F
-from utils import read_node_labels, create_logs
+from tqdm import tqdm, trange
+from utils import calculate_reward, calculate_predictive_loss
+from utils import read_node_labels, create_logs, create_features, create_batches
 
 class StepNetworkLayer(torch.nn.Module):
      """
@@ -124,7 +124,7 @@ class DownStreamNetworkLayer(torch.nn.Module):
         :param hidden_state: LSTM state used for labeling and attention update.
         """
         predictions = torch.mm(hidden_state.view(1,-1), self.theta_classification)
-        attention = F.softmax(torch.mm(hidden_state.view(1,-1), self.theta_rank), dim = 1)
+        attention = torch.nn.functional.softmax(torch.mm(hidden_state.view(1,-1), self.theta_rank), dim = 1)
         return predictions, attention
  
 class GAM(torch.nn.Module):
@@ -140,79 +140,43 @@ class GAM(torch.nn.Module):
 
     def reset_attention(self):
         self.step_block.attention = torch.ones((len(self.identifiers)))/len(self.identifiers)
-        self.h0 = torch.randn(1, 1, self.args.combined_dimensions)
-        self.c0 = torch.randn(1, 1, self.args.combined_dimensions)
+        self.lstm_h_0 = torch.randn(1, 1, self.args.combined_dimensions)
+        self.lstm_c_0 = torch.randn(1, 1, self.args.combined_dimensions)
 
     def forward(self, data, graph, features, node):
         self.state, node, attention_score = self.step_block(data, graph, features, node)
-        output, (self.h0, self.c0) = self.recurrent_block(self.state, (self.h0, self.c0))
-        label_predictions, attention = self.down_block(output)
+        lstm_output, (self.h0, self.c0) = self.recurrent_block(self.state, (self.lstm_h_0, self.lstm_c_0))
+        label_predictions, attention = self.down_block(lstm_output)
         self.step_block.attention = attention.view(-1)
-        return F.log_softmax(label_predictions, dim=1), node, attention_score
-
-def create_batches(graphs, batch_size):
-    """
-    :param graphs:
-    :param batch_size:
-    :return batches:
-    """
-    batches = [graphs[i:i + batch_size] for i in range(0, len(graphs), batch_size)]
-    return batches
-
-def create_features(data, identifiers):
-    """
-    
-    :param data:
-    :param identifiers:
-    :return graph:
-    :return features:
-    """
-    graph = nx.from_edgelist(data["edges"])
-    features = [[ 1.0 if data["labels"][str(node)] == i else 0.0 for i in range(len(identifiers))] for node in graph.nodes()]
-    features = np.array(features, dtype=np.float32)
-    features = torch.tensor(features)
-    return graph, features
+        label_predictions = torch.nn.functional.log_softmax(label_predictions, dim=1)
+        return label_predictions, node, attention_score
 
 class GAMTrainer(object):
 
     def __init__(self, args):
         self.args = args
-        self.GAM = GAM(args)
+        self.model = GAM(args)
         self.setup_graphs()
-        self.setup_logs()
-
-    def setup_logs(self):
         self.logs = create_logs(self.args)
 
     def setup_graphs(self):
         self.training_graphs = glob.glob(self.args.train_graph_folder + "*.json")
         self.test_graphs = glob.glob(self.args.test_graph_folder + "*.json")
 
-    def calculate_reward(self, target, predictions):
-        reward = (target == torch.argmax(predictions))
-        reward = 2*(reward.float()-0.5)
-        return reward
-
-    def calculate_predictive_loss(self, data, predictions):
-        target = [data["target"]]
-        target = torch.tensor(target)
-        prediction_loss = F.nll_loss(predictions, target)
-        return target, prediction_loss
-
     def process_graph(self, graph_path, batch_loss):
         data = json.load(open(graph_path))
-        graph, features = create_features(data, self.GAM.identifiers)
+        graph, features = create_features(data, self.model.identifiers)
         node = random.choice(graph.nodes())
         attention_loss = 0
         for t in range(self.args.time):
-            predictions, node, attention_score = self.GAM(data, graph, features, node)
-            target, prediction_loss = self.calculate_predictive_loss(data, predictions)
+            predictions, node, attention_score = self.model(data, graph, features, node)
+            target, prediction_loss = calculate_predictive_loss(data, predictions)
             batch_loss = batch_loss + prediction_loss
             if t < self.args.time-2:
                 attention_loss = attention_loss + (self.args.gamma**(self.args.time-t))*torch.log(attention_score)
-        reward = self.calculate_reward(target, predictions)
+        reward = calculate_reward(target, predictions)
         batch_loss = batch_loss-reward*attention_loss
-        self.GAM.reset_attention()
+        self.model.reset_attention()
         return batch_loss
 
     def process_batch(self, batch):
@@ -229,8 +193,9 @@ class GAMTrainer(object):
         self.logs["losses"].append(average_loss)
 
     def fit(self):
-        self.GAM.train()
-        self.optimizer = torch.optim.Adam(self.GAM.parameters(), lr=self.args.learning_rate, weight_decay=self.args.weight_decay)
+        print("\nTraining started.\n")
+        self.model.train()
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.args.learning_rate, weight_decay=self.args.weight_decay)
         epoch_range = trange(self.args.epochs, desc = "Epoch: ", leave=True)
         for epoch in epoch_range:
             random.shuffle(self.training_graphs)
@@ -245,23 +210,28 @@ class GAMTrainer(object):
                 batch_range.set_description("(Loss=%g)" % loss_score)
             self.update_log()
 
-    def score_graph(self, data, predictions):
+    def score_graph(self, data, prediction):
         target = data["target"]
-        is_it_right = (target == np.argmax(predictions.detach()))
+        is_it_right = (target == prediction)
         self.predictions.append(is_it_right)
 
     def score(self):
-        print("\nScoring test set.\n")
-        self.GAM.eval()
+        print("\n")
+        print("\nScoring the test set.\n")
+        self.model.eval()
         self.predictions = []
         for data in tqdm(self.test_graphs):
             data = json.load(open(data))
-            graph, features = create_features(data, self.GAM.identifiers)
-            node = random.choice(graph.nodes())
-            for time in range(self.args.time):
-                prediction, node, _ = self.GAM(data, graph, features, node)
+            graph, features = create_features(data, self.model.identifiers)
+            node_predictions = []
+            for repetition in range(self.args.repetitions):
+                node = random.choice(graph.nodes())
+                for time in range(self.args.time):
+                    prediction, node, _ = self.model(data, graph, features, node)
+                node_predictions.append(np.argmax(prediction.detach()))
+                self.model.reset_attention()
+            prediction = max(set(node_predictions), key=node_predictions.count)
             self.score_graph(data, prediction)
-            self.GAM.reset_attention()
         self.accuracy = float(np.mean(self.predictions))
         print("\nThe test set accuracy is: "+str(round(self.accuracy,4))+".\n")
 
@@ -271,24 +241,3 @@ class GAMTrainer(object):
             json.dump(self.logs,f)
         self.output_data = pd.DataFrame([[self.test_graphs[i], self.predictions[i].item()] for i in range(len(self.test_graphs))], columns = ["graph_id","predicted_label"])
         self.output_data.to_csv(self.args.prediction_path, index=None)
-
-
-class MemoryGAM(object):
-    def __init__(self):
-        print("Yolo")
-
-
-class MemoryGAMTrainer(object):
-    def __init__(self,args):
-        self.args = args
-        x = MemoryGAM()
-    def fit(self):
-        print("Model")
-    def score(self):
-        print("Score")
-    def save_predictions_and_logs(self):
-        print("Saved.")
-
-           
-                
-                    

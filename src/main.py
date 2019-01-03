@@ -1,6 +1,6 @@
 from parser import parameter_parser
 from utils import tab_printer
-from gam import GAMTrainer, MemoryGAMTrainer
+from gam import GAMTrainer
 
 def main():
     """
@@ -8,10 +8,7 @@ def main():
     """
     args = parameter_parser()
     tab_printer(args)
-    if args.model_memory == False: 
-        model = GAMTrainer(args)
-    else:
-        model = MemoryGAMTrainer(args)
+    model = GAMTrainer(args)
     model.fit()
     model.score()
     model.save_predictions_and_logs()

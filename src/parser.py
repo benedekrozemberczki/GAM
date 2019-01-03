@@ -45,18 +45,18 @@ def parameter_parser():
 
     parser.add_argument("--batch-size",
                         type = int,
-                        default = 32,
+                        default = 10,
 	                help = "Number of graphs processed per batch. Default is 32.")
 
     parser.add_argument("--time",
                         type = int,
-                        default = 20,
+                        default = 10,
 	                help = "Time budget for steps. Default is 20.")
 
-    parser.add_argument("--agents",
+    parser.add_argument("--repetitions",
                         type = int,
                         default = 10,
-	                help = "Number of agents for model with memory. Default is 10.")
+	                help = "Number of predictive repetitions. Default is 10.")
 
     parser.add_argument("--gamma",
                         type = float,
@@ -72,11 +72,5 @@ def parameter_parser():
                         type = float,
                         default = 10**-5,
 	                help = "Learning rate. Default is 10^-5.")
-
-    parser.add_argument("--model-memory",
-                        dest = "model_memory",
-                        action = "store_true")
-
-    parser.set_defaults(spectral_features = False)
     
     return parser.parse_args()
