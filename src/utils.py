@@ -51,7 +51,7 @@ def create_features(data, identifiers):
     :return features:
     """
     graph = nx.from_edgelist(data["edges"])
-    features = [[ 1.0 if data["labels"][str(node)] == i else 0.0 for i in range(len(identifiers))] for node in graph.nodes()]
+    features = [[1.0 if data["labels"][str(node)] == i else 0.0 for i in range(len(identifiers))] for node in graph.nodes()]
     features = np.array(features, dtype=np.float32)
     features = torch.tensor(features)
     return graph, features
