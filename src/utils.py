@@ -18,6 +18,12 @@ def tab_printer(args):
     print(t.draw())
 
 def read_node_labels(args):
+    """
+    Reading the graphs from disk.
+    :param args: Arguments object.
+    :return identifiers: Hash table of unique node labels in the dataset.
+    :return class_number: Number of unique graph classes in the dataset. 
+    """
     print("\nCollecting unique node labels.\n")
     labels = set()
     targets = set()
@@ -36,6 +42,11 @@ def read_node_labels(args):
     return identifiers, class_number
 
 def create_logs(args):
+    """
+    Creates a dictionary for logging.
+    :param args: Arguments object.
+    :param log: Hash table for logs.
+    """
     log = dict()
     log["losses"] = []
     log["params"] = vars(args)
@@ -43,11 +54,11 @@ def create_logs(args):
 
 def create_features(data, identifiers):
     """
-        
-    :param data:
-    :param identifiers:
-    :return graph:
-    :return features:
+     Creates a tensor of node features. 
+    :param data: Hash table with data.
+    :param identifiers: Node labels mapping.
+    :return graph: NetworkX object.
+    :return features: Feature Tensor (PyTorch).
     """
     graph = nx.from_edgelist(data["edges"])
     features = [[1.0 if data["labels"][str(node)] == i else 0.0 for i in range(len(identifiers))] for node in graph.nodes()]
@@ -57,19 +68,32 @@ def create_features(data, identifiers):
 
 def create_batches(graphs, batch_size):
     """
-    :param graphs:
-    :param batch_size:
-    :return batches:
+    Creating batches of graph locations.
+    :param graphs: List of training graphs.
+    :param batch_size: Size of batches.
+    :return batches: List of lists with paths to graphs.
     """
     batches = [graphs[i:i + batch_size] for i in range(0, len(graphs), batch_size)]
     return batches
 
-def calculate_reward(target, predictions):
-    reward = (target == torch.argmax(predictions))
+def calculate_reward(target, prediction):
+    """
+    Calculating a reward for a prediction.
+    :param target: True graph label.
+    :param prediction: Predicted graph label.
+    """
+    reward = (target == torch.argmax(prediction))
     reward = 2*(reward.float()-0.5)
     return reward
 
 def calculate_predictive_loss(data, predictions):
+    """
+    Prediction loss calculation.
+    :param data: Hash with label.
+    :param prediction: Predicted label.
+    :return target: Target tensor.
+    :prediction loss: Loss on sample.
+    """
     target = [data["target"]]
     target = torch.tensor(target)
     prediction_loss = torch.nn.functional.nll_loss(predictions, target)
