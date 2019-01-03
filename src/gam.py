@@ -164,6 +164,9 @@ class GAMTrainer(object):
         self.test_graphs = glob.glob(self.args.test_graph_folder + "*.json")
 
     def process_graph(self, graph_path, batch_loss):
+        """
+        :return:
+        """
         data = json.load(open(graph_path))
         graph, features = create_features(data, self.model.identifiers)
         node = random.choice(graph.nodes())
@@ -180,19 +183,31 @@ class GAMTrainer(object):
         return batch_loss
 
     def process_batch(self, batch):
+        """
+        Forward and backward propagation on a batch of graphs.
+        :param batch: Batch if graphs.
+        :return loss_value: Value of loss on batch.
+        """
         self.optimizer.zero_grad()
         batch_loss = 0
         for graph_path in batch:
             batch_loss = self.process_graph(graph_path, batch_loss)
         batch_loss.backward(retain_graph = True)
         self.optimizer.step()
-        return batch_loss.item()
+        loss_value =  batch_loss.item() 
+        return loss_value
 
     def update_log(self):
+        """
+        Adding the end of epoch loss to the log.
+        """
         average_loss = self.epoch_loss/self.nodes_processed
         self.logs["losses"].append(average_loss)
 
     def fit(self):
+        """
+        Fitting a model on the training dataset.
+        """
         print("\nTraining started.\n")
         self.model.train()
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.args.learning_rate, weight_decay=self.args.weight_decay)
@@ -211,11 +226,19 @@ class GAMTrainer(object):
             self.update_log()
 
     def score_graph(self, data, prediction):
+        """
+        Scoring the prediction on the graph.
+        :param data: Data hash table of graph.
+        :param prediction: Label prediction.
+        """
         target = data["target"]
         is_it_right = (target == prediction)
         self.predictions.append(is_it_right)
 
     def score(self):
+        """
+        Scoring the test set graphs.
+        """
         print("\n")
         print("\nScoring the test set.\n")
         self.model.eval()
@@ -236,6 +259,9 @@ class GAMTrainer(object):
         print("\nThe test set accuracy is: "+str(round(self.accuracy,4))+".\n")
 
     def save_predictions_and_logs(self):
+        """
+        Saving the predictions as a csv file and logs as a JSON.
+        """
         self.logs["test_accuracy"] = self.accuracy
         with open(self.args.log_path,"w") as f:
             json.dump(self.logs,f)
