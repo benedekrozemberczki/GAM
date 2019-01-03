@@ -58,7 +58,7 @@ Training a GAM model is handled by the `src/main.py` script which provides the f
 #### Model options
 
 ```
-  --agents               INT         Number of agents with memory.            Default is 10. 
+  --repetitions          INT         Number of scoring runs.                  Default is 10. 
   --batch-size           INT         Number of graphs processed per batch.    Default is 32. 
   --time                 INT         Time budget.                             Default is 20. 
   --step-dimensions      INT         Neurons in step layer.                   Default is 32. 
@@ -67,14 +67,13 @@ Training a GAM model is handled by the `src/main.py` script which provides the f
   --learning-rate        FLOAT       Learning rate.                           Default is 0.001.
   --gamma                FLOAT       Discount rate.                           Default is 0.99. 
   --weight-decay         FLOAT       Weight decay.                            Default is 10^-5. 
-  --model-memory         BOOL        Training a model with multiple agents.   Sets shared agent memory to True.  
 ```
 
 ### Examples
 
-The following commands learn a node embedding, regression weights and write these to disk. The node representations are ordered by the ID. The layer sizes can be set manually.
+The following commands learn a neural network, make predictions, create logs and writes the latter ones to disk.
 
-Creating an SGCN embedding of the default dataset. Saving the embedding, regression weights and logs at default paths.
+Training a GAM model on the default dataset. Saving predictions and logs at default paths.
 ```
 python src/main.py
 ```
@@ -82,20 +81,15 @@ python src/main.py
 <img style="float: center;" src="gam_running.jpg">
 </p>
 
-Creating an SGCN model of the default dataset with a 96-64-32 architecture.
+Training a GAM model for a 100 epochs with a batch size of 512.
 ```
-python src/main.py --layers 96 64 32
+python src/main.py --epochs 100 --batch-size 512
 ```
-Creating a single layer SGCN model with 32 features.
+Setting a high time budget for the agent.
 ```
-python src/main.py --layers 32
+python src/main.py --time 128
 ```
-Creating an embedding with some custom learning rate and epoch number.
+Training a model with some custom learning rate and epoch number.
 ```
 python src/main.py --learning-rate 0.001 --epochs 200
 ```
-Creating an embedding of another dataset with features present a signed `Erdos-Renyi` graph. Saving the weight output and logs in a custom folder.
-```
-python src/main.py --general-features --edge-path input/erdos_renyi_edges.csv --features-path input/erdos_renyi_features.csv --embedding-path output/embedding/erdos_renyi.csv --regression-weights-path output/weights/erdos_renyi.csv --log-path logs/erdos_renyi.json
-```
-
