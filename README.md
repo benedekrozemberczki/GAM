@@ -70,7 +70,6 @@ Training a GAM model is handled by the `src/main.py` script which provides the f
 ```
 
 ### Examples
-
 The following commands learn a neural network, make predictions, create logs, and write the latter ones to disk.
 
 Training a GAM model on the default dataset. Saving predictions and logs at default paths.
