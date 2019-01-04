@@ -128,8 +128,14 @@ class DownStreamNetworkLayer(torch.nn.Module):
         return predictions, attention
  
 class GAM(torch.nn.Module):
-
+    """
+    Graph Attention Machine class.
+    """
     def __init__(self,args):
+        """
+        Initializing the machine.
+        :param args: Arguments object.
+        """
         super(GAM, self).__init__()
         self.args = args
         self.identifiers, self.class_number = read_node_labels(self.args)
