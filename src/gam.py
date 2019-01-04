@@ -171,7 +171,9 @@ class GAM(torch.nn.Module):
         return label_predictions, node, attention_score
 
 class GAMTrainer(object):
-
+    """
+    Object to train a GAM model. 
+    """
     def __init__(self, args):
         self.args = args
         self.model = GAM(args)
