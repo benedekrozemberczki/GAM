@@ -145,11 +145,24 @@ class GAM(torch.nn.Module):
         self.reset_attention()
 
     def reset_attention(self):
+        """
+        Resetting the attention and hidden states.
+        """
         self.step_block.attention = torch.ones((len(self.identifiers)))/len(self.identifiers)
         self.lstm_h_0 = torch.randn(1, 1, self.args.combined_dimensions)
         self.lstm_c_0 = torch.randn(1, 1, self.args.combined_dimensions)
 
     def forward(self, data, graph, features, node):
+        """
+        Doing a forward pass on a graph from a given node.
+        :param data: Data dictionary.
+        :param graph: NetworkX graph.
+        :param features: Feature tensor.
+        :param node: Source node identifier.
+        :return label_predictions: Label prediction.
+        :return node: New node to move to.
+        :return attention_score: Attention score on selected node.
+        """
         self.state, node, attention_score = self.step_block(data, graph, features, node)
         lstm_output, (self.h0, self.c0) = self.recurrent_block(self.state, (self.lstm_h_0, self.lstm_c_0))
         label_predictions, attention = self.down_block(lstm_output)
@@ -166,12 +179,18 @@ class GAMTrainer(object):
         self.logs = create_logs(self.args)
 
     def setup_graphs(self):
+        """
+        Listing the training and testing graphs in the source folders.
+        """
         self.training_graphs = glob.glob(self.args.train_graph_folder + "*.json")
         self.test_graphs = glob.glob(self.args.test_graph_folder + "*.json")
 
     def process_graph(self, graph_path, batch_loss):
         """
-        :return:
+        Reading a graph and doing a forward pass on a graph with a time budget.
+        :param graph_path: Location of the graph to process.
+        :param batch_loss: Loss on the graphs processed so far in the batch.
+        :return batch_loss: Incremented loss on the current batch being processed.
         """
         data = json.load(open(graph_path))
         graph, features = create_features(data, self.model.identifiers)
