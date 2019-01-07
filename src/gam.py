@@ -221,7 +221,8 @@ class GAMTrainer(object):
             batch_loss = self.process_graph(graph_path, batch_loss)
         batch_loss.backward(retain_graph = True)
         self.optimizer.step()
-        loss_value =  batch_loss.item() 
+        loss_value =  batch_loss.item()
+        self.optimizer.zero_grad()
         return loss_value
 
     def update_log(self):
@@ -238,6 +239,7 @@ class GAMTrainer(object):
         print("\nTraining started.\n")
         self.model.train()
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.args.learning_rate, weight_decay=self.args.weight_decay)
+        self.optimizer.zero_grad()
         epoch_range = trange(self.args.epochs, desc = "Epoch: ", leave=True)
         for epoch in epoch_range:
             random.shuffle(self.training_graphs)
