@@ -1,4 +1,4 @@
-GAM
+Graph Classification Using Structural Attention
 ============================================
 A PyTorch implementation of "Graph Classification Using Structural Attention" (KDD 2018),
 
