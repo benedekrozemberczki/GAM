@@ -1,6 +1,6 @@
 Graph Classification Using Structural Attention
 ============================================
-A PyTorch implementation of "Graph Classification Using Structural Attention" (KDD 2018),
+A PyTorch implementation of "Graph Classification Using Structural Attention" (KDD 2018).
 
 <div style="text-align:center"><img src ="attention_true.jpg" ,width=600/></div>
 <p align="justify">
