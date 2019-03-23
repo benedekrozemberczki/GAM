@@ -45,7 +45,7 @@ def parameter_parser():
 
     parser.add_argument("--batch-size",
                         type = int,
-                        default = 10,
+                        default = 32,
 	                help = "Number of graphs processed per batch. Default is 32.")
 
     parser.add_argument("--time",
