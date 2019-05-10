@@ -70,8 +70,8 @@ class StepNetworkLayer(torch.nn.Module):
          label = self.sample_node_label(original_neighbors, graph, features)
          new_node = random.choice(list(set(original_neighbors).intersection(set(inverse_labels[str(label)]))))
          new_node_attributes = torch.zeros((len(self.identifiers),1))
-         new_node_attributes[labels[str(label)],0] = 1.0
-         attention_score = self.attention[labels[str(label)]]
+         new_node_attributes[label,0] = 1.0
+         attention_score = self.attention[label]
          return new_node_attributes, new_node, attention_score
          
      def forward(self, data, graph, features,node):
