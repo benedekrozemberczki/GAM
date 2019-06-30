@@ -4,11 +4,7 @@ A PyTorch implementation of "Graph Classification Using Structural Attention" (K
 
 <div style="text-align:center"><img src ="attention_true.jpg" ,width=600/></div>
 <p align="justify">
- <p align="center">
-	<img src="https://img.shields.io/badge/stars-90+-blue.svg"/>
-        <img src="https://img.shields.io/badge/forks-10+-blue.svg"/>
-	<img src="https://img.shields.io/badge/license-MIT-blue.svg"/>
-</p>
+![GitHub stars](https://img.shields.io/github/stars/benedekrozemberczki/CapsGNN.svg?style=plastic) ![GitHub forks](https://img.shields.io/github/forks/benedekrozemberczki/CapsGNN.svg?color=blue&style=plastic) ![License](https://img.shields.io/github/license/benedekrozemberczki/CapsGNN.svg?color=blue&style=plastic)
 
 ### Abstract
 
