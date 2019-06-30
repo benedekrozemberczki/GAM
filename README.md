@@ -1,10 +1,10 @@
-Graph Classification Using Structural Attention
+GAM ![GitHub stars](https://img.shields.io/github/stars/benedekrozemberczki/GAM.svg?style=plastic) ![GitHub forks](https://img.shields.io/github/forks/benedekrozemberczki/GAM.svg?color=blue&style=plastic) ![License](https://img.shields.io/github/license/benedekrozemberczki/GAM.svg?color=blue&style=plastic)
 ============================================
 A PyTorch implementation of "Graph Classification Using Structural Attention" (KDD 2018).
 
 <div style="text-align:center"><img src ="attention_true.jpg" ,width=600/></div>
 <p align="justify">
-![GitHub stars](https://img.shields.io/github/stars/benedekrozemberczki/CapsGNN.svg?style=plastic) ![GitHub forks](https://img.shields.io/github/forks/benedekrozemberczki/CapsGNN.svg?color=blue&style=plastic) ![License](https://img.shields.io/github/license/benedekrozemberczki/CapsGNN.svg?color=blue&style=plastic)
+
 
 ### Abstract
 
