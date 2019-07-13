@@ -196,7 +196,7 @@ class GAMTrainer(object):
         """
         data = json.load(open(graph_path))
         graph, features = create_features(data, self.model.identifiers)
-        node = random.choice(graph.nodes())
+        node = random.choice(list(graph.nodes()))
         attention_loss = 0
         for t in range(self.args.time):
             predictions, node, attention_score = self.model(data, graph, features, node)
@@ -277,7 +277,7 @@ class GAMTrainer(object):
             graph, features = create_features(data, self.model.identifiers)
             node_predictions = []
             for repetition in range(self.args.repetitions):
-                node = random.choice(graph.nodes())
+                node = random.choice(list(graph.nodes()))
                 for time in range(self.args.time):
                     prediction, node, _ = self.model(data, graph, features, node)
                 node_predictions.append(np.argmax(prediction.detach()))
