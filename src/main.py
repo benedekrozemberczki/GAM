@@ -1,6 +1,6 @@
-from parser import parameter_parser
-from utils import tab_printer
 from gam import GAMTrainer
+from utils import tab_printer
+from parser import parameter_parser
 
 def main():
     """
