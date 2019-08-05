@@ -5,7 +5,6 @@ def parameter_parser():
     A method to parse up command line parameters. By default it learns on the Erdos-Renyi dataset.
     The default hyperparameters give good results without cross-validation.
     """
-
     parser = argparse.ArgumentParser(description = "Run GAM.")
 	
     parser.add_argument("--train-graph-folder",
