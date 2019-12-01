@@ -31,8 +31,8 @@ torch              1.0.0.
 torchvision        0.2.1
 ```
 ### Datasets
-
-The code takes graphs for training from an input folder where each graph is stored as a JSON. Graphs used for testing are also stored as JSON files. Every node id, node label and class has to be indexed from 0. Keys of dictionaries and nested dictionaries are stored strings in order to make JSON serialization possible.
+<p align="justify">
+The code takes graphs for training from an input folder where each graph is stored as a JSON. Graphs used for testing are also stored as JSON files. Every node id, node label and class has to be indexed from 0. Keys of dictionaries and nested dictionaries are stored strings in order to make JSON serialization possible.</p>
 
 For example these JSON files have the following key-value structure:
 
@@ -42,7 +42,8 @@ For example these JSON files have the following key-value structure:
  "labels": {"0": 2, "1": 3, "2": 2, "3": 3, "4": 4},
  "inverse_labels": {"2": [0, 2], "3": [1, 3], "4": [4]}}
 ```
-The **target key** has an integer value, which is the ID of the target class (e.g. Carcinogenicity). The **edges key** has an edge list value for the graph of interest. The **labels key** has a dictonary value for each node, these labels are stored as key-value pairs (e.g. node - atom pair). The **inverse_labels key** has a key for each node label and the values are lists containing the nodes that have a specific node label.
+<p align="justify">
+The **target key** has an integer value, which is the ID of the target class (e.g. Carcinogenicity). The **edges key** has an edge list value for the graph of interest. The **labels key** has a dictonary value for each node, these labels are stored as key-value pairs (e.g. node - atom pair). The **inverse_labels key** has a key for each node label and the values are lists containing the nodes that have a specific node label.</p>
 
 ### Options
 
@@ -72,9 +73,10 @@ Training a GAM model is handled by the `src/main.py` script which provides the f
 ```
 
 ### Examples
+<p align="justify">
 The following commands learn a neural network, make predictions, create logs, and write the latter ones to disk.
 
-Training a GAM model on the default dataset. Saving predictions and logs at default paths.
+Training a GAM model on the default dataset. Saving predictions and logs at default paths.</p>
 ```
 python src/main.py
 ```
