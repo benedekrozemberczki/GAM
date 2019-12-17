@@ -1,3 +1,5 @@
+"""Data reading utils."""
+
 import json
 import glob
 import torch
@@ -13,8 +15,9 @@ def tab_printer(args):
     """
     args = vars(args)
     keys = sorted(args.keys())
-    t = Texttable() 
-    t.add_rows([["Parameter", "Value"]] + [[k.replace("_"," ").capitalize(),args[k]] for k in keys])
+    t = Texttable()
+    t.add_rows([["Parameter", "Value"]])
+    t.add_rows([[k.replace("_", " ").capitalize(), args[k]] for k in keys])
     print(t.draw())
 
 def read_node_labels(args):
@@ -22,7 +25,7 @@ def read_node_labels(args):
     Reading the graphs from disk.
     :param args: Arguments object.
     :return identifiers: Hash table of unique node labels in the dataset.
-    :return class_number: Number of unique graph classes in the dataset. 
+    :return class_number: Number of unique graph classes in the dataset.
     """
     print("\nCollecting unique node labels.\n")
     labels = set()
@@ -33,12 +36,12 @@ def read_node_labels(args):
     except:
         pass
     for g in tqdm(graphs):
-         data = json.load(open(g))
-         labels = labels.union(set(list(data["labels"].values())))
-         targets = targets.union(set([data["target"]]))
-    identifiers = {label:i for i, label in enumerate(list(labels))}
+        data = json.load(open(g))
+        labels = labels.union(set(list(data["labels"].values())))
+        targets = targets.union(set([data["target"]]))
+    identifiers = {label: i for i, label in enumerate(list(labels))}
     class_number = len(targets)
-    print("\n\nThe number of graph classes is: " +str(class_number) + ".\n")
+    print("\n\nThe number of graph classes is: "+str(class_number)+".\n")
     return identifiers, class_number
 
 def create_logs(args):
@@ -54,14 +57,16 @@ def create_logs(args):
 
 def create_features(data, identifiers):
     """
-     Creates a tensor of node features. 
+     Creates a tensor of node features.
     :param data: Hash table with data.
     :param identifiers: Node labels mapping.
     :return graph: NetworkX object.
     :return features: Feature Tensor (PyTorch).
     """
     graph = nx.from_edgelist(data["edges"])
-    features = [[1.0 if data["labels"][str(node)] == i else 0.0 for i in range(len(identifiers))] for node in graph.nodes()]
+    features = []
+    for node in graph.nodes():
+        features.append([1.0 if data["labels"][str(node)] == i else 0.0 for i in range(len(identifiers))])
     features = np.array(features, dtype=np.float32)
     features = torch.tensor(features)
     return graph, features
