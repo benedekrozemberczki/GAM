@@ -1,6 +1,8 @@
+"""Running the GAM model."""
+
 from gam import GAMTrainer
 from utils import tab_printer
-from parser import parameter_parser
+from param_parser import parameter_parser
 
 def main():
     """
