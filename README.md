@@ -1,5 +1,7 @@
-GAM [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/graph-classification-using-structural/graph-classification-on-hiv-dataset)](https://paperswithcode.com/sota/graph-classification-on-hiv-dataset?p=graph-classification-using-structural) ![License](https://img.shields.io/github/license/benedekrozemberczki/GAM.svg?color=blue&style=plastic)
+GAM
 ============================================
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/graph-classification-using-structural/graph-classification-on-hiv-dataset)](https://paperswithcode.com/sota/graph-classification-on-hiv-dataset?p=graph-classification-using-structural) ![License](https://img.shields.io/github/license/benedekrozemberczki/GAM.svg?color=blue&style=plastic) [![codebeat badge](https://codebeat.co/badges/1c623c59-70f5-46b8-8f5d-17f9eaca54d5)](https://codebeat.co/projects/github-com-benedekrozemberczki-gam-master)
+
 A PyTorch implementation of "Graph Classification Using Structural Attention" (KDD 2018).
 
 <div style="text-align:center"><img src ="attention_true.jpg" ,width=600/></div>
