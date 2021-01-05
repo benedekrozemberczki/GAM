@@ -98,3 +98,8 @@ Training a model with some custom learning rate and epoch number.
 ```
 python src/main.py --learning-rate 0.001 --epochs 200
 ```
+--------------------------------------------------------------------------------
+
+**License**
+
+- [GNU License](https://github.com/benedekrozemberczki/GAM/blob/master/LICENSE)
