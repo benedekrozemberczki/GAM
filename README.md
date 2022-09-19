@@ -104,4 +104,4 @@ python src/main.py --learning-rate 0.001 --epochs 200
 
 - [GNU License](https://github.com/benedekrozemberczki/GAM/blob/master/LICENSE)
 
----------------------------------------------------------------------
+-----------------------------------------------------------------
